@@ -2,10 +2,7 @@ import Button, { type ButtonProps } from "@mui/material/Button";
 import { useTheme } from "@emotion/react";
 import { type FC, forwardRef } from "react";
 
-export const PrimaryAgentButton: FC<ButtonProps> = ({
-  className,
-  ...attrs
-}) => {
+export const PrimaryAgentButton: FC<ButtonProps> = ({ children, ...attrs }) => {
   const theme = useTheme();
 
   return (
@@ -24,14 +21,20 @@ export const PrimaryAgentButton: FC<ButtonProps> = ({
         },
       }}
       {...attrs}
-    />
+    >
+      {children}
+    </Button>
   );
 };
 
 // eslint-disable-next-line react/display-name -- Name is inferred from variable name
 export const SecondaryAgentButton = forwardRef<HTMLButtonElement, ButtonProps>(
   (props, ref) => {
-    const { className, ...attrs } = props;
-    return <Button ref={ref} className={className} {...attrs} />;
+    const { children, ...attrs } = props;
+    return (
+      <Button ref={ref} {...attrs}>
+        {children}
+      </Button>
+    );
   },
 );

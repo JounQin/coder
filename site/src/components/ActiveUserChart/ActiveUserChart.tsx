@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import { Theme } from "@mui/material/styles";
 import useTheme from "@mui/styles/useTheme";
 import {
@@ -42,7 +41,7 @@ ChartJS.register(
 const USER_LIMIT_DISPLAY_THRESHOLD = 60;
 
 export interface ActiveUserChartProps {
-  data: { date: string; amount: number }[];
+  data: Array<{ date: string; amount: number }>;
   interval: "day" | "week";
   userLimit: number | undefined;
 }
@@ -137,7 +136,7 @@ export const ActiveUserChart: FC<ActiveUserChartProps> = ({
   );
 };
 
-export const ActiveUsersTitle = () => {
+export const ActiveUsersTitle: FC = () => {
   return (
     <div css={{ display: "flex", alignItems: "center", gap: 8 }}>
       Active Users

@@ -15,7 +15,7 @@ const meta: Meta<typeof PortForwardPopoverView> = {
         css={(theme) => ({
           width: 304,
           border: `1px solid ${theme.palette.divider}`,
-          borderRadius: 1,
+          borderRadius: 8,
           backgroundColor: theme.palette.background.paper,
         })}
       >

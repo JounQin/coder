@@ -1,9 +1,10 @@
 // This is the only place MuiAvatar can be used
 // eslint-disable-next-line no-restricted-imports -- Read above
-import MuiAvatar, { AvatarProps as MuiAvatarProps } from "@mui/material/Avatar";
-import { FC, useId } from "react";
+import MuiAvatar, {
+  type AvatarProps as MuiAvatarProps,
+} from "@mui/material/Avatar";
+import { type FC, useId } from "react";
 import { css, type Interpolation, type Theme } from "@emotion/react";
-import { Box } from "@mui/system";
 import { visuallyHidden } from "@mui/utils";
 
 export type AvatarProps = MuiAvatarProps & {
@@ -78,6 +79,8 @@ export const AvatarIcon: FC<AvatarIconProps> = ({ src, alt }) => {
   const hookId = useId();
   const avatarId = `${hookId}-avatar`;
 
+  // We use a `visuallyHidden` element instead of setting `alt` to avoid
+  // splatting the text out on the screen if the image fails to load.
   return (
     <>
       <img

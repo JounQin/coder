@@ -63,10 +63,10 @@ const OptionsTable: FC<OptionsTableProps> = ({ options, additionalValues }) => {
                   <OptionDescription>{option.description}</OptionDescription>
                   <div
                     css={{
-                      marginTop: 3,
+                      marginTop: 24,
                       display: "flex",
                       flexWrap: "wrap",
-                      gap: 1,
+                      gap: 8,
                     }}
                   >
                     {option.flag && (

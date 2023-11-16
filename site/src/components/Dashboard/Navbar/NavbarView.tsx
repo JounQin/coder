@@ -249,9 +249,9 @@ export const NavbarView: FC<NavbarViewProps> = ({
           css={{
             display: "flex",
             marginLeft: "auto",
-            gap: 2,
+            gap: 16,
             alignItems: "center",
-            paddingRight: 2,
+            paddingRight: 16,
           }}
         >
           {proxyContextValue && (

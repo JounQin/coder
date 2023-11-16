@@ -34,11 +34,13 @@ export interface PortForwardButtonProps {
 }
 
 export const PortForwardButton: FC<PortForwardButtonProps> = (props) => {
+  const { agent } = props;
+
   const theme = useTheme();
   const portsQuery = useQuery({
-    queryKey: ["portForward", props.agent.id],
-    queryFn: () => getAgentListeningPorts(props.agent.id),
-    enabled: props.agent.status === "connected",
+    queryKey: ["portForward", agent.id],
+    queryFn: () => getAgentListeningPorts(agent.id),
+    enabled: agent.status === "connected",
     refetchInterval: 5_000,
   });
 
@@ -115,15 +117,16 @@ export const PortForwardPopoverView: FC<PortForwardPopoverViewProps> = ({
             : "The forwarded ports are exclusively accessible to you."}
         </HelpTooltipText>
         <div css={{ marginTop: 12 }}>
-          {ports?.map((p) => {
+          {ports?.map((port) => {
             const url = portForwardURL(
               host,
-              p.port,
+              port.port,
               agent.name,
               workspaceName,
               username,
             );
-            const label = p.process_name !== "" ? p.process_name : p.port;
+            const label =
+              port.process_name !== "" ? port.process_name : port.port;
             return (
               <Link
                 underline="none"
@@ -137,7 +140,7 @@ export const PortForwardPopoverView: FC<PortForwardPopoverViewProps> = ({
                   paddingBottom: 4,
                   fontWeight: 500,
                 }}
-                key={p.port}
+                key={port.port}
                 href={url}
                 target="_blank"
                 rel="noreferrer"
@@ -146,13 +149,13 @@ export const PortForwardPopoverView: FC<PortForwardPopoverViewProps> = ({
                 {label}
                 <span
                   css={{
-                    ml: "auto",
+                    marginLeft: "auto",
                     color: theme.palette.text.secondary,
                     fontSize: 13,
                     fontWeight: 400,
                   }}
                 >
-                  {p.port}
+                  {port.port}
                 </span>
               </Link>
             );

@@ -142,7 +142,7 @@ export const OptionConfig = (props: OptionConfigProps) => {
           : theme.palette.background.paperLight,
         display: "inline-flex",
         alignItems: "center",
-        borderRadius: 0.25,
+        borderRadius: 2,
         padding: "0 8px",
         border: `1px solid ${borderColor}`,
       }}
@@ -171,7 +171,7 @@ export const OptionConfigFlag = (props: OptionConfigFlagProps) => {
         backgroundColor: source ? "rgba(0, 0, 0, 0.7)" : theme.palette.divider,
         lineHeight: 1,
         padding: "2px 4px",
-        borderRadius: 0.25,
+        borderRadius: 2,
       }}
     >
       {children}
