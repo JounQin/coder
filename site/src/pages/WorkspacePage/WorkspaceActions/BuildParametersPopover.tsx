@@ -40,6 +40,14 @@ export const BuildParametersPopover: FC<BuildParametersPopoverProps> = ({
   disabled,
   onSubmit,
 }) => {
+  const { data: parameters } = useQuery({
+    queryKey: ["workspace", workspace.id, "parameters"],
+    queryFn: () => getWorkspaceParameters(workspace),
+  });
+  const ephemeralParameters = parameters
+    ? parameters.templateVersionRichParameters.filter((p) => p.ephemeral)
+    : undefined;
+
   return (
     <Popover>
       <PopoverTrigger>
@@ -57,7 +65,8 @@ export const BuildParametersPopover: FC<BuildParametersPopoverProps> = ({
         css={{ ".MuiPaper-root": { width: 304 } }}
       >
         <BuildParametersPopoverContent
-          workspace={workspace}
+          ephemeralParameters={ephemeralParameters}
+          buildParameters={parameters?.buildParameters}
           onSubmit={onSubmit}
         />
       </PopoverContent>
@@ -66,28 +75,22 @@ export const BuildParametersPopover: FC<BuildParametersPopoverProps> = ({
 };
 
 interface BuildParametersPopoverContentProps {
-  workspace: Workspace;
+  ephemeralParameters?: TemplateVersionParameter[];
+  buildParameters?: WorkspaceBuildParameter[];
   onSubmit: (buildParameters: WorkspaceBuildParameter[]) => void;
 }
 
 const BuildParametersPopoverContent: FC<BuildParametersPopoverContentProps> = ({
-  workspace,
+  ephemeralParameters,
+  buildParameters,
   onSubmit,
 }) => {
   const theme = useTheme();
   const popover = usePopover();
-  const { data: parameters } = useQuery({
-    queryKey: ["workspace", workspace.id, "parameters"],
-    queryFn: () => getWorkspaceParameters(workspace),
-    enabled: popover.isOpen,
-  });
-  const ephemeralParameters = parameters
-    ? parameters.templateVersionRichParameters.filter((p) => p.ephemeral)
-    : undefined;
 
   return (
     <>
-      {parameters && parameters.buildParameters && ephemeralParameters ? (
+      {buildParameters && ephemeralParameters ? (
         ephemeralParameters.length > 0 ? (
           <>
             <div
@@ -109,7 +112,7 @@ const BuildParametersPopoverContent: FC<BuildParametersPopoverContentProps> = ({
                   popover.setIsOpen(false);
                 }}
                 ephemeralParameters={ephemeralParameters}
-                buildParameters={parameters.buildParameters}
+                buildParameters={buildParameters}
               />
             </div>
           </>
