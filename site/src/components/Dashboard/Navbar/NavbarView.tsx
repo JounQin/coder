@@ -271,9 +271,12 @@ export const NavbarView: FC<NavbarViewProps> = ({
   );
 };
 
-const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
-  proxyContextValue,
-}) => {
+interface ProxyMenuProps {
+  proxyContextValue: ProxyContextValue;
+}
+
+const ProxyMenu: FC<ProxyMenuProps> = ({ proxyContextValue }) => {
+  const theme = useTheme();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [refetchDate, setRefetchDate] = useState<Date>();
@@ -311,7 +314,7 @@ const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
       <Skeleton
         width="110px"
         height={BUTTON_SM_HEIGHT}
-        sx={{ borderRadius: "9999px", transform: "none" }}
+        css={{ borderRadius: "9999px", transform: "none" }}
       />
     );
   }
@@ -323,7 +326,7 @@ const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
         onClick={() => setIsOpen(true)}
         size="small"
         endIcon={<KeyboardArrowDownOutlined />}
-        sx={{
+        css={{
           borderRadius: "999px",
           "& .MuiSvgIcon-root": { fontSize: 14 },
         }}
@@ -351,7 +354,7 @@ const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
         anchorEl={buttonRef.current}
         onClick={closeMenu}
         onClose={closeMenu}
-        sx={{ "& .MuiMenu-paper": { py: 1 } }}
+        css={{ "& .MuiMenu-paper": { paddingTop: 8, paddingBottom: 8 } }}
       >
         <div
           css={{
@@ -364,7 +367,7 @@ const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
         >
           <Typography
             component="h4"
-            sx={{
+            css={{
               fontSize: "inherit",
               fontWeight: 600,
               lineHeight: "inherit",
@@ -375,9 +378,9 @@ const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
           </Typography>
           <Typography
             component="p"
-            sx={{
+            css={{
               fontSize: 13,
-              color: (theme) => theme.palette.text.secondary,
+              color: theme.palette.text.secondary,
               lineHeight: "inherit",
               marginTop: 0.5,
             }}
@@ -388,7 +391,7 @@ const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
             used.
           </Typography>
         </div>
-        <Divider sx={{ borderColor: (theme) => theme.palette.divider }} />
+        <Divider css={{ borderColor: theme.palette.divider }} />
         {proxyContextValue.proxies
           ?.sort((a, b) => {
             const latencyA = latencies?.[a.id]?.latencyMS ?? Infinity;
@@ -438,7 +441,7 @@ const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
               </div>
             </MenuItem>
           ))}
-        <Divider sx={{ borderColor: (theme) => theme.palette.divider }} />
+        <Divider css={{ borderColor: theme.palette.divider }} />
         {Boolean(permissions.editWorkspaceProxies) && (
           <MenuItem
             css={{ fontSize: 14 }}

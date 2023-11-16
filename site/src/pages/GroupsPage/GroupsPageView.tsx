@@ -156,7 +156,7 @@ export const GroupsPageView: FC<GroupsPageViewProps> = ({
                             <AvatarGroup
                               max={10}
                               total={group.members.length}
-                              sx={{ justifyContent: "flex-end" }}
+                              css={{ justifyContent: "flex-end" }}
                             >
                               {group.members.map((member) => (
                                 <UserAvatar
@@ -192,7 +192,7 @@ const TableLoader = () => {
     <TableLoaderSkeleton>
       <TableRowSkeleton>
         <TableCell>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box css={{ display: "flex", alignItems: "center", gap: 8 }}>
             <AvatarDataSkeleton />
           </Box>
         </TableCell>

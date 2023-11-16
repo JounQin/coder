@@ -101,8 +101,8 @@ export const TemplateEmbedPageView: FC<{
       {!buttonValues || !templateParameters ? (
         <Loader />
       ) : (
-        <Box display="flex" alignItems="flex-start" gap={6}>
-          <Box flex={1} maxWidth={400}>
+        <div css={{ display: "flex", alignItems: "flex-start", gap: 6 }}>
+          <div css={{ flex: 1, maxWidth: 400 }}>
             <VerticalForm>
               <FormSection
                 title="Creation mode"
@@ -143,7 +143,9 @@ export const TemplateEmbedPageView: FC<{
                 </>
               )}
             </VerticalForm>
-          </Box>
+          </div>
+
+          {/* why are you like this */}
           <Box
             display="flex"
             height={{
@@ -162,18 +164,19 @@ export const TemplateEmbedPageView: FC<{
             border={(theme) => `1px solid ${theme.palette.divider}`}
           >
             <img src="/open-in-coder.svg" alt="Open in Coder button" />
-            <Box
-              p={2}
-              py={6}
-              display="flex"
-              justifyContent="center"
-              position="absolute"
-              bottom={0}
-              left={0}
-              width="100%"
+            <div
+              css={{
+                padding: "48px 16px",
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}
             >
               <Button
-                sx={{ borderRadius: 999 }}
+                css={{ borderRadius: 999 }}
                 startIcon={
                   clipboard.isCopied ? <CheckOutlined /> : <FileCopyOutlined />
                 }
@@ -183,9 +186,9 @@ export const TemplateEmbedPageView: FC<{
               >
                 Copy button code
               </Button>
-            </Box>
+            </div>
           </Box>
-        </Box>
+        </div>
       )}
     </>
   );
