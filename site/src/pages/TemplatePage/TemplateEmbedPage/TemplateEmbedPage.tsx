@@ -145,23 +145,22 @@ export const TemplateEmbedPageView: FC<{
             </VerticalForm>
           </div>
 
-          {/* why are you like this */}
-          <Box
-            display="flex"
-            height={{
+          <div
+            css={(theme) => ({
               // 80px for padding, 36px is for the status bar. We want to use `vh`
               // so that it will be relative to the screen and not the parent layout.
               height: "calc(100vh - (80px + 36px))",
               top: 40,
               position: "sticky",
-            }}
-            p={8}
-            flex={1}
-            alignItems="center"
-            justifyContent="center"
-            borderRadius={1}
-            bgcolor="background.paper"
-            border={(theme) => `1px solid ${theme.palette.divider}`}
+              display: "flex",
+              padding: 64,
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: 8,
+              backgroundColor: theme.palette.background.paper,
+              border: `1px solid ${theme.palette.divider}`,
+            })}
           >
             <img src="/open-in-coder.svg" alt="Open in Coder button" />
             <div
@@ -187,7 +186,7 @@ export const TemplateEmbedPageView: FC<{
                 Copy button code
               </Button>
             </div>
-          </Box>
+          </div>
         </div>
       )}
     </>

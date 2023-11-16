@@ -191,12 +191,12 @@ export const Filter: FC<FilterProps> = ({
   const hasFilterQuery = filter.query !== "";
 
   return (
-    <Box
-      sx={{
+    <div
+      css={{
         display: "flex",
-        flexWrap: ["wrap", undefined, "nowrap"], // TODO: what even is this?
-        gap: 1,
-        marginBottom: 2,
+        flexWrap: "wrap",
+        gap: 8,
+        marginBottom: 16,
       }}
     >
       {isLoading ? (
@@ -283,7 +283,7 @@ export const Filter: FC<FilterProps> = ({
           {options}
         </>
       )}
-    </Box>
+    </div>
   );
 };
 
