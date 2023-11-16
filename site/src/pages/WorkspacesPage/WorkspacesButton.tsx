@@ -1,4 +1,4 @@
-import { type PropsWithChildren, type ReactNode, useState } from "react";
+import { type FC, type ReactNode, useState } from "react";
 import { type Template } from "api/typesGenerated";
 import { type UseQueryResult } from "react-query";
 import {
@@ -25,16 +25,17 @@ const ICON_SIZE = 18;
 
 type TemplatesQuery = UseQueryResult<Template[]>;
 
-type WorkspacesButtonProps = PropsWithChildren<{
+interface WorkspacesButtonProps {
+  children?: ReactNode;
   templatesFetchStatus: TemplatesQuery["status"];
   templates: TemplatesQuery["data"];
-}>;
+}
 
-export function WorkspacesButton({
+export const WorkspacesButton: FC<WorkspacesButtonProps> = ({
   children,
   templatesFetchStatus,
   templates,
-}: WorkspacesButtonProps) {
+}) => {
   // Dataset should always be small enough that client-side filtering should be
   // good enough. Can swap out down the line if it becomes an issue
   const [searchTerm, setSearchTerm] = useState("");
@@ -116,9 +117,13 @@ export function WorkspacesButton({
       </PopoverContent>
     </Popover>
   );
+};
+
+interface WorkspaceResultsRowProps {
+  template: Template;
 }
 
-function WorkspaceResultsRow({ template }: { template: Template }) {
+const WorkspaceResultsRow: FC<WorkspaceResultsRowProps> = ({ template }) => {
   return (
     <PopoverLink
       to={`/templates/${template.name}/workspace`}
@@ -132,7 +137,7 @@ function WorkspaceResultsRow({ template }: { template: Template }) {
         src={template.icon}
         fitImage
         alt={template.display_name || "Coder template"}
-        sx={{
+        css={{
           width: `${ICON_SIZE}px`,
           height: `${ICON_SIZE}px`,
           fontSize: `${ICON_SIZE * 0.5}px`,
@@ -173,7 +178,7 @@ function WorkspaceResultsRow({ template }: { template: Template }) {
       </Box>
     </PopoverLink>
   );
-}
+};
 
 function PopoverLink(props: RouterLinkProps) {
   return (
