@@ -21,7 +21,6 @@ import { CoderIcon } from "components/Icons/CoderIcon";
 import { ProxyStatusLatency } from "components/ProxyStatusLatency/ProxyStatusLatency";
 import { usePermissions } from "hooks/usePermissions";
 import { UserDropdown } from "./UserDropdown/UserDropdown";
-import { Diversity2Sharp } from "@mui/icons-material";
 
 export const USERS_LINK = `/users?filter=${encodeURIComponent(
   "status:active",
@@ -130,9 +129,12 @@ interface NavItemsProps {
   canViewAllUsers: boolean;
 }
 
-const NavItems: React.FC<NavItemsProps> = (props) => {
-  const { className, canViewAuditLog, canViewDeployment, canViewAllUsers } =
-    props;
+const NavItems: FC<NavItemsProps> = ({
+  className,
+  canViewAuditLog,
+  canViewDeployment,
+  canViewAllUsers,
+}) => {
   const location = useLocation();
   const theme = useTheme();
 
@@ -407,14 +409,12 @@ const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
               }}
               key={proxy.id}
               selected={proxy.id === selectedProxy?.id}
-              css={{
-                fontSize: 14,
-              }}
+              css={{ fontSize: 14 }}
             >
-              <Diversity2Sharp
+              <div
                 css={{
                   display: "flex",
-                  gap: 3,
+                  gap: 24,
                   alignItems: "center",
                   width: "100%",
                 }}
@@ -435,7 +435,7 @@ const ProxyMenu: FC<{ proxyContextValue: ProxyContextValue }> = ({
                   latency={latencies?.[proxy.id]?.latencyMS}
                   isLoading={proxyLatencyLoading(proxy)}
                 />
-              </Diversity2Sharp>
+              </div>
             </MenuItem>
           ))}
         <Divider sx={{ borderColor: (theme) => theme.palette.divider }} />

@@ -1,6 +1,7 @@
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
+import { type FC } from "react";
 
 export const TableToolbar = styled(Box)(({ theme }) => ({
   fontSize: 13,
@@ -15,36 +16,38 @@ export const TableToolbar = styled(Box)(({ theme }) => ({
   },
 }));
 
+type PaginationStatusProps =
+  | BasePaginationStatusProps
+  | LoadedPaginationStatusProps;
+
 type BasePaginationStatusProps = {
-  label: string;
-  isLoading: boolean;
-  showing?: number;
-  total?: number;
+  isLoading: true;
 };
 
-type LoadedPaginationStatusProps = BasePaginationStatusProps & {
+type LoadedPaginationStatusProps = {
   isLoading: false;
+  label: string;
   showing: number;
   total: number;
 };
 
-export const PaginationStatus = ({
-  isLoading,
-  showing,
-  total,
-  label,
-}: BasePaginationStatusProps | LoadedPaginationStatusProps) => {
+export const PaginationStatus: FC<PaginationStatusProps> = (props) => {
+  const { isLoading } = props;
+
   if (isLoading) {
     return (
-      <Box sx={{ height: 24, display: "flex", alignItems: "center" }}>
+      <div css={{ height: 24, display: "flex", alignItems: "center" }}>
         <Skeleton variant="text" width={160} height={16} />
-      </Box>
+      </div>
     );
   }
+
+  const { showing, total, label } = props;
+
   return (
-    <Box>
+    <div>
       Showing <strong>{showing}</strong> of{" "}
       <strong>{total?.toLocaleString()}</strong> {label}
-    </Box>
+    </div>
   );
 };

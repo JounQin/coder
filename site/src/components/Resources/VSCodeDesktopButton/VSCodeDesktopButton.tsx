@@ -50,7 +50,7 @@ export const VSCodeDesktopButton: FC<
       <ButtonGroup
         ref={menuAnchorRef}
         variant="outlined"
-        sx={{
+        css={{
           // Workaround to make the border transitions smoothly on button groups
           "& > button:hover + button": {
             borderLeft: "1px solid #FFF",
@@ -74,9 +74,9 @@ export const VSCodeDesktopButton: FC<
           onClick={() => {
             setIsVariantMenuOpen(true);
           }}
-          sx={{ px: 0 }}
+          css={{ paddingLeft: 0, paddingRight: 0 }}
         >
-          <KeyboardArrowDownIcon sx={{ fontSize: 16 }} />
+          <KeyboardArrowDownIcon css={{ fontSize: 16 }} />
         </PrimaryAgentButton>
       </ButtonGroup>
 

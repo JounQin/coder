@@ -1,6 +1,6 @@
 import type { Workspace } from "api/typesGenerated";
 import { Pill } from "components/Pill/Pill";
-import { type FC, type PropsWithChildren } from "react";
+import { type FC, type PropsWithChildren, type ReactNode } from "react";
 import { ChooseOne, Cond } from "components/Conditionals/ChooseOne";
 import { DormantDeletionText } from "components/WorkspaceDeletion";
 import { getDisplayWorkspaceStatus } from "utils/workspace";
@@ -15,28 +15,31 @@ import { type Interpolation, type Theme } from "@emotion/react";
 
 export type WorkspaceStatusBadgeProps = {
   workspace: Workspace;
+  children?: ReactNode;
   className?: string;
 };
 
-export const WorkspaceStatusBadge: FC<
-  PropsWithChildren<WorkspaceStatusBadgeProps>
-> = ({ workspace, className }) => {
+export const WorkspaceStatusBadge: FC<WorkspaceStatusBadgeProps> = ({
+  workspace,
+  className,
+}) => {
   const { text, icon, type } = getDisplayWorkspaceStatus(
     workspace.latest_build.status,
     workspace.latest_build.job,
   );
+
   return (
     <ChooseOne>
       <Cond condition={workspace.latest_build.status === "failed"}>
         <FailureTooltip
           title={
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+            <Box css={{ display: "flex", alignItems: "center", gap: 10 }}>
               <ErrorOutline
-                sx={{
+                css={(theme) => ({
                   width: 14,
                   height: 14,
-                  color: (theme) => theme.palette.error.light,
-                }}
+                  color: theme.palette.error.light,
+                })}
               />
               <Box>{workspace.latest_build.job.error}</Box>
             </Box>
@@ -55,9 +58,10 @@ export const WorkspaceStatusBadge: FC<
   );
 };
 
-export const WorkspaceStatusText: FC<
-  PropsWithChildren<WorkspaceStatusBadgeProps>
-> = ({ workspace, className }) => {
+export const WorkspaceStatusText: FC<WorkspaceStatusBadgeProps> = ({
+  workspace,
+  className,
+}) => {
   const { text, type } = getDisplayWorkspaceStatus(
     workspace.latest_build.status,
   );

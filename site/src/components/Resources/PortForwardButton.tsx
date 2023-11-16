@@ -1,9 +1,9 @@
-import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import CircularProgress from "@mui/material/CircularProgress";
 import OpenInNewOutlined from "@mui/icons-material/OpenInNewOutlined";
 import { css } from "@emotion/css";
 import { useTheme } from "@emotion/react";
+import type { FC } from "react";
 import { useQuery } from "react-query";
 import { colors } from "theme/colors";
 import {
@@ -33,7 +33,7 @@ export interface PortForwardButtonProps {
   agent: WorkspaceAgent;
 }
 
-export const PortForwardButton: React.FC<PortForwardButtonProps> = (props) => {
+export const PortForwardButton: FC<PortForwardButtonProps> = (props) => {
   const theme = useTheme();
   const portsQuery = useQuery({
     queryKey: ["portForward", props.agent.id],
@@ -48,8 +48,8 @@ export const PortForwardButton: React.FC<PortForwardButtonProps> = (props) => {
         <SecondaryAgentButton disabled={!portsQuery.data}>
           Ports
           {portsQuery.data ? (
-            <Box
-              sx={{
+            <div
+              css={{
                 fontSize: 12,
                 fontWeight: 500,
                 height: 20,
@@ -60,13 +60,13 @@ export const PortForwardButton: React.FC<PortForwardButtonProps> = (props) => {
                 alignItems: "center",
                 justifyContent: "center",
                 backgroundColor: colors.gray[11],
-                ml: 1,
+                marginLeft: 8,
               }}
             >
               {portsQuery.data.ports.length}
-            </Box>
+            </div>
           ) : (
-            <CircularProgress size={10} sx={{ ml: 1 }} />
+            <CircularProgress size={10} css={{ marginLeft: 8 }} />
           )}
         </SecondaryAgentButton>
       </PopoverTrigger>
@@ -87,27 +87,34 @@ export const PortForwardButton: React.FC<PortForwardButtonProps> = (props) => {
   );
 };
 
-export const PortForwardPopoverView: React.FC<
-  PortForwardButtonProps & { ports?: WorkspaceAgentListeningPort[] }
-> = (props) => {
+interface PortForwardPopoverViewProps extends PortForwardButtonProps {
+  ports?: WorkspaceAgentListeningPort[];
+}
+
+export const PortForwardPopoverView: FC<PortForwardPopoverViewProps> = ({
+  host,
+  workspaceName,
+  agent,
+  username,
+  ports,
+}) => {
   const theme = useTheme();
-  const { host, workspaceName, agent, username, ports } = props;
 
   return (
     <>
-      <Box
+      <div
         css={{
           padding: 20,
           borderBottom: `1px solid ${theme.palette.divider}`,
         }}
       >
         <HelpTooltipTitle>Forwarded ports</HelpTooltipTitle>
-        <HelpTooltipText sx={{ color: theme.palette.text.secondary }}>
+        <HelpTooltipText css={{ color: theme.palette.text.secondary }}>
           {ports?.length === 0
             ? "No open ports were detected."
             : "The forwarded ports are exclusively accessible to you."}
         </HelpTooltipText>
-        <Box css={{ marginTop: 12 }}>
+        <div css={{ marginTop: 12 }}>
           {ports?.map((p) => {
             const url = portForwardURL(
               host,
@@ -150,21 +157,20 @@ export const PortForwardPopoverView: React.FC<
               </Link>
             );
           })}
-        </Box>
-      </Box>
+        </div>
+      </div>
 
-      <Box css={{ padding: 20 }}>
+      <div css={{ padding: 20 }}>
         <HelpTooltipTitle>Forward port</HelpTooltipTitle>
-        <HelpTooltipText sx={{ color: theme.palette.text.secondary }}>
+        <HelpTooltipText css={{ color: theme.palette.text.secondary }}>
           Access ports running on the agent:
         </HelpTooltipText>
 
-        <Box
-          component="form"
-          sx={{
+        <form
+          css={{
             border: `1px solid ${theme.palette.divider}`,
             borderRadius: "4px",
-            mt: 2,
+            marginTop: 16,
             display: "flex",
             alignItems: "center",
             "&:focus-within": {
@@ -185,10 +191,9 @@ export const PortForwardPopoverView: React.FC<
             window.open(url, "_blank");
           }}
         >
-          <Box
+          <input
             aria-label="Port number"
             name="portNumber"
-            component="input"
             type="number"
             placeholder="Type a port number..."
             min={0}
@@ -216,14 +221,14 @@ export const PortForwardPopoverView: React.FC<
               color: theme.palette.text.primary,
             }}
           />
-        </Box>
+        </form>
 
         <HelpTooltipLinksGroup>
           <HelpTooltipLink href={docs("/networking/port-forwarding#dashboard")}>
             Learn more
           </HelpTooltipLink>
         </HelpTooltipLinksGroup>
-      </Box>
+      </div>
     </>
   );
 };

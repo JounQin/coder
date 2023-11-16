@@ -38,7 +38,7 @@ export const Section: SectionFC = ({
           <div css={styles.header}>
             <div>
               {title && (
-                <Typography variant="h4" sx={{ fontSize: 24 }}>
+                <Typography variant="h4" css={{ fontSize: 24 }}>
                   {title}
                 </Typography>
               )}
