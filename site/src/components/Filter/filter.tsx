@@ -607,9 +607,8 @@ function SearchMenu<TOption extends { label: string; value: string }>({
             color: theme.palette.text.secondary,
           }}
         />
-        <Box
+        <input
           tabIndex={-1}
-          component="input"
           type="text"
           placeholder="Search..."
           autoFocus

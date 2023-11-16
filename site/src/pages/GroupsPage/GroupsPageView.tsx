@@ -192,9 +192,9 @@ const TableLoader = () => {
     <TableLoaderSkeleton>
       <TableRowSkeleton>
         <TableCell>
-          <Box css={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <div css={{ display: "flex", alignItems: "center", gap: 8 }}>
             <AvatarDataSkeleton />
-          </Box>
+          </div>
         </TableCell>
         <TableCell>
           <Skeleton variant="text" width="25%" />

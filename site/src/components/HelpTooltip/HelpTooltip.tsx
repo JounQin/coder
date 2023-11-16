@@ -1,7 +1,7 @@
 import Link from "@mui/material/Link";
 // This is used as base for the main HelpTooltip component
 // eslint-disable-next-line no-restricted-imports -- Read above
-import Popover, { PopoverProps } from "@mui/material/Popover";
+import Popover, { type PopoverProps } from "@mui/material/Popover";
 import HelpIcon from "@mui/icons-material/HelpOutline";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import {
@@ -9,25 +9,18 @@ import {
   useContext,
   useRef,
   useState,
-  FC,
-  PropsWithChildren,
+  type FC,
+  type PropsWithChildren,
+  type HTMLAttributes,
+  type ReactNode,
 } from "react";
 import { Stack } from "components/Stack/Stack";
-import Box, { BoxProps } from "@mui/material/Box";
 import { type CSSObject, css as className } from "@emotion/css";
 import { css, type Interpolation, type Theme, useTheme } from "@emotion/react";
 
 type Icon = typeof HelpIcon;
 
 type Size = "small" | "medium";
-export interface HelpTooltipProps {
-  // Useful to test on storybook
-  open?: boolean;
-  size?: Size;
-  icon?: Icon;
-  iconClassName?: string;
-  buttonClassName?: string;
-}
 
 export const HelpTooltipContext = createContext<
   { open: boolean; onClose: () => void } | undefined
@@ -45,9 +38,17 @@ const useHelpTooltip = () => {
   return helpTooltipContext;
 };
 
-export const HelpPopover: FC<
-  PopoverProps & { onOpen: () => void; onClose: () => void }
-> = ({ onOpen, onClose, children, ...props }) => {
+interface HelpPopoverProps extends PopoverProps {
+  onOpen: () => void;
+  onClose: () => void;
+}
+
+export const HelpPopover: FC<HelpPopoverProps> = ({
+  onOpen,
+  onClose,
+  children,
+  ...props
+}) => {
   const theme = useTheme();
 
   return (
@@ -86,7 +87,17 @@ export const HelpPopover: FC<
   );
 };
 
-export const HelpTooltip: FC<PropsWithChildren<HelpTooltipProps>> = ({
+export interface HelpTooltipProps {
+  // Useful to test on storybook
+  open?: boolean;
+  size?: Size;
+  icon?: Icon;
+  iconClassName?: string;
+  buttonClassName?: string;
+  children?: ReactNode;
+}
+
+export const HelpTooltip: FC<HelpTooltipProps> = ({
   children,
   open = false,
   size = "medium",
@@ -161,12 +172,26 @@ export const HelpTooltip: FC<PropsWithChildren<HelpTooltipProps>> = ({
   );
 };
 
-export const HelpTooltipTitle: FC<PropsWithChildren> = ({ children }) => {
-  return <h4 css={styles.title}>{children}</h4>;
+export const HelpTooltipTitle: FC<HTMLAttributes<HTMLHeadingElement>> = ({
+  children,
+  ...attrs
+}) => {
+  return (
+    <h4 css={styles.title} {...attrs}>
+      {children}
+    </h4>
+  );
 };
 
-export const HelpTooltipText = (props: BoxProps) => {
-  return <Box component="p" css={styles.text} {...props} />;
+export const HelpTooltipText: FC<HTMLAttributes<HTMLParagraphElement>> = ({
+  children,
+  ...attrs
+}) => {
+  return (
+    <p css={styles.text} {...attrs}>
+      {children}
+    </p>
+  );
 };
 
 export const HelpTooltipLink: FC<PropsWithChildren<{ href: string }>> = ({
@@ -181,13 +206,19 @@ export const HelpTooltipLink: FC<PropsWithChildren<{ href: string }>> = ({
   );
 };
 
-export const HelpTooltipAction: FC<
-  PropsWithChildren<{
-    icon: Icon;
-    onClick: () => void;
-    ariaLabel?: string;
-  }>
-> = ({ children, icon: Icon, onClick, ariaLabel }) => {
+interface HelpTooltipActionProps {
+  children?: ReactNode;
+  icon: Icon;
+  onClick: () => void;
+  ariaLabel?: string;
+}
+
+export const HelpTooltipAction: FC<HelpTooltipActionProps> = ({
+  children,
+  icon: Icon,
+  onClick,
+  ariaLabel,
+}) => {
   const tooltip = useHelpTooltip();
 
   return (
@@ -206,9 +237,7 @@ export const HelpTooltipAction: FC<
   );
 };
 
-export const HelpTooltipLinksGroup: FC<PropsWithChildren<unknown>> = ({
-  children,
-}) => {
+export const HelpTooltipLinksGroup: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Stack spacing={1} css={styles.linksGroup}>
       {children}

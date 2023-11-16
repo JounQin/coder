@@ -107,7 +107,7 @@ export const BatchDeleteConfirmation: FC<BatchDeleteConfirmationProps> = (
             confirmDeletion();
           }}
         >
-          <Box>
+          <div>
             Deleting these workspaces is irreversible! Are you sure you want to
             proceed? Type{" "}
             <code
@@ -120,7 +120,7 @@ export const BatchDeleteConfirmation: FC<BatchDeleteConfirmationProps> = (
               `DELETE`
             </code>{" "}
             to confirm.
-          </Box>
+          </div>
           <TextField
             value={confirmation.value}
             required

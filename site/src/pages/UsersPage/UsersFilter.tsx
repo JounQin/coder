@@ -1,6 +1,5 @@
-import { FC } from "react";
-import Box from "@mui/material/Box";
-import { Palette, PaletteColor } from "@mui/material/styles";
+import { useTheme } from "@emotion/react";
+import { type FC } from "react";
 import {
   Filter,
   FilterMenu,
@@ -9,9 +8,11 @@ import {
   SearchFieldSkeleton,
   useFilter,
 } from "components/Filter/filter";
-import { BaseOption } from "components/Filter/options";
-import { useTheme } from "@emotion/react";
-import { UseFilterMenuOptions, useFilterMenu } from "components/Filter/menu";
+import type { BaseOption } from "components/Filter/options";
+import {
+  type UseFilterMenuOptions,
+  useFilterMenu,
+} from "components/Filter/menu";
 import type { ThemeRole } from "theme/experimental";
 import { docs } from "utils/docs";
 
@@ -50,17 +51,15 @@ const PRESET_FILTERS = [
   { query: userFilterQuery.all, name: "All users" },
 ];
 
-export const UsersFilter = ({
-  filter,
-  error,
-  menus,
-}: {
+interface UsersFilterProps {
   filter: ReturnType<typeof useFilter>;
   error?: unknown;
   menus: {
     status: StatusFilterMenu;
   };
-}) => {
+}
+
+export const UsersFilter: FC<UsersFilterProps> = ({ filter, error, menus }) => {
   return (
     <Filter
       presets={PRESET_FILTERS}
@@ -125,11 +124,11 @@ const StatusIndicator: FC<StatusIndicatorProps> = ({ option }) => {
   const theme = useTheme();
 
   return (
-    <Box
-      height={8}
-      width={8}
-      borderRadius={4}
+    <div
       css={{
+        height: 8,
+        width: 8,
+        borderRadius: 4,
         backgroundColor: theme.experimental.roles[option.color].fill,
       }}
     />

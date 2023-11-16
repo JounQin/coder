@@ -72,11 +72,11 @@ export const IntervalMenu = ({
               }}
             >
               {label}
-              <Box css={{ width: 16, height: 16 }}>
+              <div css={{ width: 16, height: 16 }}>
                 {value === interval && (
                   <CheckOutlined css={{ width: 16, height: 16 }} />
                 )}
-              </Box>
+              </div>
             </MenuItem>
           );
         })}

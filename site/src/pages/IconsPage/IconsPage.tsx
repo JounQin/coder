@@ -80,7 +80,7 @@ export const IconsPage: FC = () => {
             <Tooltip
               placement="bottom-end"
               title={
-                <Box
+                <div
                   css={{
                     padding: 8,
                     fontSize: 13,
@@ -91,7 +91,7 @@ export const IconsPage: FC = () => {
                   public GitHub repository. Just keep in mind that it should be
                   relevant to many Coder users, and redistributable under a
                   permissive license.
-                </Box>
+                </div>
               }
             >
               <Link href="https://github.com/coder/coder/tree/main/site/static/icon">

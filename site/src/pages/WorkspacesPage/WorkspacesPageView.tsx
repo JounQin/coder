@@ -138,11 +138,11 @@ export const WorkspacesPageView = ({
       <TableToolbar>
         {checkedWorkspaces.length > 0 ? (
           <>
-            <Box>
+            <div>
               Selected <strong>{checkedWorkspaces.length}</strong> of{" "}
               <strong>{workspaces?.length}</strong>{" "}
               {workspaces?.length === 1 ? "workspace" : "workspaces"}
-            </Box>
+            </div>
 
             <MoreMenu>
               <MoreMenuTrigger>

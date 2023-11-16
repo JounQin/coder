@@ -11,7 +11,6 @@ import {
   forwardRef,
   useId,
 } from "react";
-import Box from "@mui/system/Box";
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import { visuallyHidden } from "@mui/utils";
 import { useTheme } from "@emotion/react";
@@ -67,8 +66,7 @@ export const SearchBox = forwardRef(function SearchBox(
         {label}
       </label>
 
-      <Box
-        component="input"
+      <input
         type="text"
         ref={ref}
         id={inputId}

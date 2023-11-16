@@ -94,7 +94,7 @@ export const WorkspacesButton: FC<WorkspacesButtonProps> = ({
           )}
         </OverflowY>
 
-        <Box
+        <div
           css={(theme) => ({
             padding: "8px 0",
             borderTop: `1px solid ${theme.palette.divider}`,
@@ -113,7 +113,7 @@ export const WorkspacesButton: FC<WorkspacesButtonProps> = ({
             <OpenIcon css={{ width: 14, height: 14 }} />
             <span>See all templates</span>
           </PopoverLink>
-        </Box>
+        </div>
       </PopoverContent>
     </Popover>
   );
@@ -147,7 +147,7 @@ const WorkspaceResultsRow: FC<WorkspaceResultsRowProps> = ({ template }) => {
         {template.display_name || "-"}
       </Avatar>
 
-      <Box
+      <div
         css={(theme) => ({
           color: theme.palette.text.primary,
           display: "flex",
@@ -175,7 +175,7 @@ const WorkspaceResultsRow: FC<WorkspaceResultsRowProps> = ({ template }) => {
           developer
           {template.active_user_count === 1 ? "" : "s"}
         </span>
-      </Box>
+      </div>
     </PopoverLink>
   );
 };

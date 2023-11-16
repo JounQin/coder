@@ -1,4 +1,3 @@
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { type FC, type ReactNode } from "react";
 import { type Interpolation, type Theme } from "@emotion/react";
@@ -6,17 +5,16 @@ import { EnterpriseBadge } from "components/Badges/Badges";
 import { Stack } from "components/Stack/Stack";
 
 export interface PaywallProps {
+  children?: ReactNode;
   message: string;
-  description?: string | React.ReactNode;
+  description?: string | ReactNode;
   cta?: ReactNode;
 }
 
-export const Paywall: FC<React.PropsWithChildren<PaywallProps>> = (props) => {
-  const { message, description, cta } = props;
-
+export const Paywall: FC<PaywallProps> = ({ message, description, cta }) => {
   return (
-    <Box css={styles.root}>
-      <div css={styles.header}>
+    <div css={styles.root}>
+      <div css={{ marginBottom: 24 }}>
         <Stack direction="row" alignItems="center" justifyContent="center">
           <Typography variant="h5" css={styles.title}>
             {message}
@@ -35,7 +33,7 @@ export const Paywall: FC<React.PropsWithChildren<PaywallProps>> = (props) => {
         )}
       </div>
       {cta}
-    </Box>
+    </div>
   );
 };
 
@@ -52,9 +50,6 @@ const styles = {
     border: `1px solid ${theme.palette.divider}`,
     borderRadius: 8,
   }),
-  header: {
-    marginBottom: 24,
-  },
   title: {
     fontWeight: 600,
     fontFamily: "inherit",
@@ -65,10 +60,4 @@ const styles = {
     maxWidth: 420,
     lineHeight: "160%",
   },
-  enterpriseChip: (theme) => ({
-    background: theme.palette.success.dark,
-    color: theme.palette.success.contrastText,
-    border: `1px solid ${theme.palette.success.light}`,
-    fontSize: 13,
-  }),
 } satisfies Record<string, Interpolation<Theme>>;

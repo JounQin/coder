@@ -90,13 +90,13 @@ export const UserAutocomplete: FC<UserAutocompleteProps> = ({
       }
       getOptionLabel={(option) => option.email}
       renderOption={(props, option) => (
-        <Box component="li" {...props}>
+        <li {...props}>
           <AvatarData
             title={option.username}
             subtitle={option.email}
             src={option.avatar_url}
           />
-        </Box>
+        </li>
       )}
       renderInput={(params) => (
         <TextField

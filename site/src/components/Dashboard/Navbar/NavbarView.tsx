@@ -2,7 +2,6 @@ import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import Skeleton from "@mui/material/Skeleton";
-import Box from "@mui/material/Box";
 import Menu from "@mui/material/Menu";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
@@ -332,19 +331,19 @@ const ProxyMenu: FC<ProxyMenuProps> = ({ proxyContextValue }) => {
         }}
       >
         {selectedProxy ? (
-          <Box display="flex" gap={1} alignItems="center">
-            <Box width={16} height={16} lineHeight={0}>
+          <div css={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <div css={{ width: 16, height: 16, lineHeight: 0 }}>
               <img
                 src={selectedProxy.icon_url}
                 alt=""
                 css={{ objectFit: "contain", width: "100%", height: "100%" }}
               />
-            </Box>
+            </div>
             <ProxyStatusLatency
               latency={latencies?.[selectedProxy.id]?.latencyMS}
               isLoading={proxyLatencyLoading(selectedProxy)}
             />
-          </Box>
+          </div>
         ) : (
           "Select Proxy"
         )}
