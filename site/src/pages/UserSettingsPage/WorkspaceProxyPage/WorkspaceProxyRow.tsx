@@ -128,13 +128,13 @@ const ProxyMessagesList: FC<ProxyMessagesListProps> = ({ title, messages }) => {
       css={{
         borderBottom: `1px solid ${theme.palette.divider}`,
         backgroundColor: theme.palette.background.default,
-        p: "16px 24px",
+        padding: "16px 24px",
       }}
     >
       <div
         id="nested-list-subheader"
         css={{
-          mb: 0.5,
+          marginBottom: 4,
           fontSize: 13,
           fontWeight: 600,
         }}
@@ -143,7 +143,7 @@ const ProxyMessagesList: FC<ProxyMessagesListProps> = ({ title, messages }) => {
       </div>
       {messages.map((error, index) => (
         <pre
-          key={"message" + index}
+          key={index}
           css={{
             margin: "0 0 8px",
             fontSize: 14,

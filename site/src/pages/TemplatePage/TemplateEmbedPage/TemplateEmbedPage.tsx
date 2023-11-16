@@ -101,7 +101,7 @@ export const TemplateEmbedPageView: FC<{
       {!buttonValues || !templateParameters ? (
         <Loader />
       ) : (
-        <div css={{ display: "flex", alignItems: "flex-start", gap: 6 }}>
+        <div css={{ display: "flex", alignItems: "flex-start", gap: 48 }}>
           <div css={{ flex: 1, maxWidth: 400 }}>
             <VerticalForm>
               <FormSection

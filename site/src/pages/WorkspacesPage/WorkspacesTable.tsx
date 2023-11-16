@@ -57,7 +57,7 @@ export const WorkspacesTable: FC<WorkspacesTableProps> = ({
         <TableHead>
           <TableRow>
             <TableCell width="40%">
-              <div css={{ display: "flex", alignItems: "center", gap: 1 }}>
+              <div css={{ display: "flex", alignItems: "center", gap: 8 }}>
                 {canCheckWorkspaces && (
                   <Checkbox
                     // Remove the extra padding added for the first cell in the
