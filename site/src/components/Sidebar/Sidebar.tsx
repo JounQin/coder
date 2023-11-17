@@ -1,80 +1,135 @@
-import { type FC, type HTMLAttributes } from "react";
-import { colors } from "theme/colors";
+import { cx } from "@emotion/css";
+import { type CSSObject, type Interpolation, type Theme } from "@emotion/react";
+import { type ElementType, type FC, type ReactNode } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { Stack } from "components/Stack/Stack";
+import { type ClassName, useClassName } from "hooks/useClassName";
 
-export const Sidebar: FC<HTMLAttributes<HTMLElement>> = ({
-  children,
-  ...attrs
-}) => {
-  return (
-    <nav
-      css={(theme) => ({
-        width: 256,
-        flexShrink: 0,
-        borderRight: `1px solid ${theme.palette.divider}`,
-        height: "100%",
-        overflowY: "auto",
-      })}
-      {...attrs}
-    >
-      {children}
-    </nav>
-  );
-};
-
-interface SidebarItemProps extends HTMLAttributes<HTMLElement> {
-  active?: boolean;
+interface SidebarProps {
+  children?: ReactNode;
 }
 
-export const SidebarItem: FC<SidebarItemProps> = ({
-  children,
-  active,
-  ...attrs
+export const Sidebar: FC<SidebarProps> = ({ children }) => {
+  return <nav css={styles.sidebar}>{children}</nav>;
+};
+
+interface SidebarHeaderProps {
+  avatar: ReactNode;
+  title: ReactNode;
+  subtitle: ReactNode;
+  linkTo?: string;
+}
+
+export const SidebarHeader: FC<SidebarHeaderProps> = ({
+  avatar,
+  title,
+  subtitle,
+  linkTo,
 }) => {
   return (
-    <button
-      css={(theme) => ({
-        background: active ? colors.gray[13] : "none",
-        border: "none",
-        fontSize: 14,
-        width: "100%",
-        textAlign: "left",
-        padding: "0 24px",
-        cursor: "pointer",
-        pointerEvents: active ? "none" : "auto",
-        color: active
-          ? theme.palette.text.primary
-          : theme.palette.text.secondary,
-        "&:hover": {
-          background: theme.palette.action.hover,
-          color: theme.palette.text.primary,
-        },
-        paddingTop: 10,
-        paddingBottom: 10,
-      })}
-      {...attrs}
-    >
-      {children}
-    </button>
+    <Stack direction="row" alignItems="center" css={styles.info}>
+      {avatar}
+      <div css={styles.data}>
+        {linkTo ? (
+          <Link css={styles.title} to={linkTo}>
+            {title}
+          </Link>
+        ) : (
+          <span css={styles.title}>{title}</span>
+        )}
+        <span css={styles.subtitle}>{subtitle}</span>
+      </div>
+    </Stack>
   );
 };
 
-export const SidebarCaption: FC<HTMLAttributes<HTMLDivElement>> = ({
+interface SidebarNavItemProps {
+  children?: ReactNode;
+  icon: ElementType;
+  href: string;
+}
+
+export const SidebarNavItem: FC<SidebarNavItemProps> = ({
   children,
-  ...attrs
+  href,
+  icon: Icon,
 }) => {
+  const link = useClassName(classNames.link, []);
+  const activeLink = useClassName(classNames.activeLink, []);
+
   return (
-    <div
-      css={(theme) => ({
-        fontSize: 10,
-        textTransform: "uppercase",
-        fontWeight: 500,
-        color: theme.palette.text.secondary,
-        padding: "12px 24px",
-        letterSpacing: "0.5px",
-      })}
-      {...attrs}
+    <NavLink
+      end
+      to={href}
+      className={({ isActive }) => cx([link, isActive && activeLink])}
     >
-      {children}
-    </div>
+      <Stack alignItems="center" spacing={1.5} direction="row">
+        <Icon css={{ width: 16, height: 16 }} />
+        {children}
+      </Stack>
+    </NavLink>
   );
 };
+
+const styles = {
+  sidebar: {
+    width: 245,
+    flexShrink: 0,
+  },
+  info: (theme) => ({
+    ...(theme.typography.body2 as CSSObject),
+    marginBottom: 16,
+  }),
+  data: {
+    overflow: "hidden",
+  },
+  title: (theme) => ({
+    fontWeight: 600,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
+    color: theme.palette.text.primary,
+    textDecoration: "none",
+  }),
+  subtitle: (theme) => ({
+    color: theme.palette.text.secondary,
+    fontSize: 12,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  }),
+} satisfies Record<string, Interpolation<Theme>>;
+
+const classNames = {
+  link: (css, theme) => css`
+    color: inherit;
+    display: block;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 12px 12px 12px 16px;
+    border-radius: 4px;
+    transition: background-color 0.15s ease-in-out;
+    margin-bottom: 1px;
+    position: relative;
+
+    &:hover {
+      background-color: ${theme.palette.action.hover};
+    }
+  `,
+
+  activeLink: (css, theme) => css`
+    background-color: ${theme.palette.action.hover};
+
+    &:before {
+      content: "";
+      display: block;
+      width: 3px;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: ${theme.palette.primary.main};
+      border-top-left-radius: 8px;
+      border-bottom-left-radius: 8px;
+    }
+  `,
+} satisfies Record<string, ClassName>;

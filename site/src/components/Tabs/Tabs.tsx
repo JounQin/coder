@@ -1,6 +1,6 @@
+import { cx } from "@emotion/css";
 import { type FC, type PropsWithChildren } from "react";
 import { NavLink, NavLinkProps } from "react-router-dom";
-import { combineClasses } from "utils/combineClasses";
 import { Margins } from "components/Margins/Margins";
 import { type ClassName, useClassName } from "hooks/useClassName";
 
@@ -35,16 +35,12 @@ export const TabLink: FC<TabLinkProps> = ({
   ...linkProps
 }) => {
   const tabLink = useClassName(classNames.tabLink, []);
-  const activeTabLink = useClassName(classNames.tabLink, []);
+  const activeTabLink = useClassName(classNames.activeTabLink, []);
 
   return (
     <NavLink
       className={({ isActive }) =>
-        combineClasses([
-          tabLink,
-          isActive ? activeTabLink : undefined,
-          className,
-        ])
+        cx([tabLink, isActive && activeTabLink, className])
       }
       {...linkProps}
     />

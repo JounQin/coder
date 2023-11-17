@@ -17,11 +17,7 @@ import {
   getDisplayWorkspaceBuildInitiatedBy,
   getDisplayWorkspaceBuildStatus,
 } from "utils/workspace";
-import {
-  Sidebar,
-  SidebarCaption,
-  SidebarItem,
-} from "components/Sidebar/Sidebar";
+import { Sidebar, SidebarCaption, SidebarItem } from "./Sidebar";
 import { BuildIcon } from "components/BuildIcon/BuildIcon";
 import Skeleton from "@mui/material/Skeleton";
 import { Alert } from "components/Alert/Alert";
@@ -225,7 +221,7 @@ const BuildSidebarItem: FC<BuildSidebarItemProps> = ({ build, active }) => {
   );
 };
 
-const BuildSidebarItemSkeleton = () => {
+const BuildSidebarItemSkeleton: FC = () => {
   return (
     <SidebarItem>
       <div css={{ display: "flex", alignItems: "start", gap: 8 }}>

@@ -1,6 +1,6 @@
 import capitalize from "lodash/capitalize";
 import { type FC } from "react";
-import type { AuditActions, ResourceTypes } from "api/typesGenerated";
+import { AuditActions, ResourceTypes } from "api/typesGenerated";
 import { UserFilterMenu, UserMenu } from "components/Filter/UserFilter";
 import {
   Filter,
