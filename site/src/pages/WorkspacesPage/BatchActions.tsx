@@ -1,6 +1,5 @@
 import { useTheme } from "@emotion/react";
 import TextField from "@mui/material/TextField";
-import { Box } from "@mui/system";
 import { deleteWorkspace, startWorkspace, stopWorkspace } from "api/api";
 import type { Workspace } from "api/typesGenerated";
 import { ConfirmDialog } from "components/Dialogs/ConfirmDialog/ConfirmDialog";

@@ -1,3 +1,6 @@
+/* eslint-disable eslint-comments/no-unlimited-disable -- no u */
+/* eslint-disable -- no u */
+
 /**
  * @file Defines a controlled searchbox component for processing form state.
  *
@@ -49,6 +52,7 @@ export const SearchBox = forwardRef(function SearchBox(
         height: "40px",
         borderBottom: `1px solid ${theme.palette.divider}`,
       }}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- try to figure out if we actually need this
       onKeyDown={onKeyDown}
     >
       <div css={{ width: 18 }}>

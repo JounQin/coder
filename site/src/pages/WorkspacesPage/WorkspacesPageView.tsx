@@ -15,7 +15,6 @@ import {
   PaginationStatus,
   TableToolbar,
 } from "components/TableToolbar/TableToolbar";
-import Box from "@mui/material/Box";
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 import { WorkspacesButton } from "./WorkspacesButton";
 import { UseQueryResult } from "react-query";

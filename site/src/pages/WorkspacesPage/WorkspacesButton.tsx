@@ -5,7 +5,6 @@ import {
   Link as RouterLink,
   LinkProps as RouterLinkProps,
 } from "react-router-dom";
-import Box from "@mui/system/Box";
 import Button from "@mui/material/Button";
 import Link from "@mui/material/Link";
 import AddIcon from "@mui/icons-material/AddOutlined";

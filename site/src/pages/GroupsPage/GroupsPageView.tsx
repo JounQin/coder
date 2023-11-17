@@ -27,7 +27,6 @@ import type { Group } from "api/typesGenerated";
 import { GroupAvatar } from "components/GroupAvatar/GroupAvatar";
 import { docs } from "utils/docs";
 import Skeleton from "@mui/material/Skeleton";
-import { Box } from "@mui/system";
 import { AvatarDataSkeleton } from "components/AvatarData/AvatarDataSkeleton";
 
 export type GroupsPageViewProps = {

@@ -22,6 +22,7 @@ import {
   type FC,
   type ReactNode,
   HTMLAttributes,
+  useId,
 } from "react";
 import chroma from "chroma-js";
 import { subDays, addWeeks, format } from "date-fns";
@@ -622,6 +623,7 @@ const ParameterUsageLabel: FC<ParameterUsageLabelProps> = ({
   usage,
   parameter,
 }) => {
+  const ariaId = useId();
   const theme = useTheme();
 
   if (parameter.options) {
@@ -640,16 +642,18 @@ const ParameterUsageLabel: FC<ParameterUsageLabelProps> = ({
         {icon && (
           <div css={{ width: 16, height: 16, lineHeight: 1 }}>
             <img
+              alt=""
               src={icon}
               css={{
                 objectFit: "contain",
                 width: "100%",
                 height: "100%",
               }}
+              aria-labelledby={ariaId}
             />
           </div>
         )}
-        {label}
+        <span id={ariaId}>{label}</span>
       </div>
     );
   }

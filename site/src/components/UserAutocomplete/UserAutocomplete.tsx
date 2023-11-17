@@ -11,7 +11,6 @@ import {
   type FC,
   useState,
 } from "react";
-import Box from "@mui/material/Box";
 import { useDebouncedFunction } from "hooks/debounce";
 import { useQuery } from "react-query";
 import { users } from "api/queries/users";

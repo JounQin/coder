@@ -1,6 +1,5 @@
 import RefreshIcon from "@mui/icons-material/Refresh";
 import InfoIcon from "@mui/icons-material/InfoOutlined";
-import Box from "@mui/material/Box";
 import Skeleton from "@mui/material/Skeleton";
 import Link from "@mui/material/Link";
 import { type FC } from "react";

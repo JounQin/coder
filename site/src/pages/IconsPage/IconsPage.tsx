@@ -2,7 +2,6 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
-import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import SearchIcon from "@mui/icons-material/SearchOutlined";
 import ClearIcon from "@mui/icons-material/CloseOutlined";

@@ -1,10 +1,5 @@
 import dayjs from "dayjs";
-import {
-  type ComponentProps,
-  type FC,
-  Fragment,
-  type HTMLAttributes,
-} from "react";
+import { type FC, Fragment, type HTMLAttributes } from "react";
 import type { ProvisionerJobLog } from "api/typesGenerated";
 import { MONOSPACE_FONT_FAMILY } from "theme/constants";
 import { Logs } from "./Logs";

@@ -1,6 +1,5 @@
 import CheckOutlined from "@mui/icons-material/CheckOutlined";
 import FileCopyOutlined from "@mui/icons-material/FileCopyOutlined";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";

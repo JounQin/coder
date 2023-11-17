@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps -- false positives */
+
 import { css } from "@emotion/css";
 import { type DependencyList, useMemo } from "react";
 import { type Theme, useTheme } from "@emotion/react";
