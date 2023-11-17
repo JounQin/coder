@@ -4,8 +4,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Link from "@mui/material/Link";
 import { type FC } from "react";
 import { useQuery } from "react-query";
-import { css } from "@emotion/css";
-import { useTheme } from "@emotion/react";
+import { type Interpolation, type Theme, css, useTheme } from "@emotion/react";
 import { templateVersion } from "api/queries/templates";
 import {
   HelpTooltip,
@@ -42,39 +41,15 @@ export const WorkspaceOutdatedTooltip: FC<TooltipProps> = ({
     <HelpTooltip
       size="small"
       icon={InfoIcon}
-      iconClassName={css`
-        color: ${theme.experimental.roles.notice.outline};
-      `}
-      buttonClassName={css`
-        opacity: 1;
-
-        &:hover {
-          opacity: 1;
-        }
-      `}
+      iconStyles={styles.icon}
+      buttonStyles={styles.button}
     >
       <HelpTooltipTitle>{Language.outdatedLabel}</HelpTooltipTitle>
       <HelpTooltipText>{Language.versionTooltipText}</HelpTooltipText>
 
-      <div
-        css={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 8,
-          paddingTop: 8,
-          paddingBottom: 8,
-          fontSize: 13,
-        }}
-      >
+      <div css={styles.container}>
         <div>
-          <div
-            css={{
-              color: theme.palette.text.primary,
-              fontWeight: 600,
-            }}
-          >
-            New version
-          </div>
+          <div css={styles.bold}>New version</div>
           <div>
             {activeVersion ? (
               <Link
@@ -91,14 +66,7 @@ export const WorkspaceOutdatedTooltip: FC<TooltipProps> = ({
         </div>
 
         <div>
-          <div
-            css={{
-              color: theme.palette.text.primary,
-              fontWeight: 600,
-            }}
-          >
-            Message
-          </div>
+          <div css={styles.bold}>Message</div>
           <div>
             {activeVersion ? (
               activeVersion.message === "" ? (
@@ -125,3 +93,31 @@ export const WorkspaceOutdatedTooltip: FC<TooltipProps> = ({
     </HelpTooltip>
   );
 };
+
+const styles = {
+  icon: (theme) => ({
+    color: theme.experimental.roles.notice.outline,
+  }),
+
+  button: css`
+    opacity: 1;
+
+    &:hover {
+      opacity: 1;
+    }
+  `,
+
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+    paddingTop: 8,
+    paddingBottom: 8,
+    fontSize: 13,
+  },
+
+  bold: (theme) => ({
+    color: theme.palette.text.primary,
+    fontWeight: 600,
+  }),
+} satisfies Record<string, Interpolation<Theme>>;

@@ -15,8 +15,9 @@ import {
   type ReactNode,
 } from "react";
 import { Stack } from "components/Stack/Stack";
-import { type CSSObject, css as className } from "@emotion/css";
+import type { CSSObject } from "@emotion/css";
 import { css, type Interpolation, type Theme, useTheme } from "@emotion/react";
+import { type ClassName, useClassName } from "hooks/useClassName";
 
 type Icon = typeof HelpIcon;
 
@@ -49,24 +50,13 @@ export const HelpPopover: FC<HelpPopoverProps> = ({
   children,
   ...props
 }) => {
-  const theme = useTheme();
+  const popover = useClassName(classNames.popover, []);
+  const paper = useClassName(classNames.paper, []);
 
   return (
     <Popover
-      className={className`
-        pointer-events: none;
-      `}
-      classes={{
-        paper: className`
-          ${theme.typography.body2 as CSSObject}
-
-          margin-top: 4px;
-          width: 304px;
-          padding: 20px;
-          color: ${theme.palette.text.secondary};
-          pointer-events: auto;
-        `,
-      }}
+      className={popover}
+      classes={{ paper }}
       onClose={onClose}
       anchorOrigin={{
         vertical: "bottom",
@@ -92,8 +82,8 @@ export interface HelpTooltipProps {
   open?: boolean;
   size?: Size;
   icon?: Icon;
-  iconClassName?: string;
-  buttonClassName?: string;
+  buttonStyles?: Interpolation<Theme>;
+  iconStyles?: Interpolation<Theme>;
   children?: ReactNode;
 }
 
@@ -102,8 +92,8 @@ export const HelpTooltip: FC<HelpTooltipProps> = ({
   open = false,
   size = "medium",
   icon: Icon = HelpIcon,
-  iconClassName,
-  buttonClassName,
+  buttonStyles,
+  iconStyles,
 }) => {
   const theme = useTheme();
   const anchorRef = useRef<HTMLButtonElement>(null);
@@ -119,24 +109,26 @@ export const HelpTooltip: FC<HelpTooltipProps> = ({
       <button
         ref={anchorRef}
         aria-describedby={id}
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: ${theme.spacing(getButtonSpacingFromSize(size))};
-          height: ${theme.spacing(getButtonSpacingFromSize(size))};
-          padding: 0;
-          border: 0;
-          background: transparent;
-          color: ${theme.palette.text.primary};
-          opacity: 0.5;
-          cursor: pointer;
+        css={[
+          css`
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: ${theme.spacing(getButtonSpacingFromSize(size))};
+            height: ${theme.spacing(getButtonSpacingFromSize(size))};
+            padding: 0;
+            border: 0;
+            background: transparent;
+            color: ${theme.palette.text.primary};
+            opacity: 0.5;
+            cursor: pointer;
 
-          &:hover {
-            opacity: 0.75;
-          }
-        `}
-        className={buttonClassName}
+            &:hover {
+              opacity: 0.75;
+            }
+          `,
+          buttonStyles,
+        ]}
         onClick={(event) => {
           event.stopPropagation();
           setIsOpen(true);
@@ -150,11 +142,13 @@ export const HelpTooltip: FC<HelpTooltipProps> = ({
         aria-label="More info"
       >
         <Icon
-          css={{
-            width: theme.spacing(getIconSpacingFromSize(size)),
-            height: theme.spacing(getIconSpacingFromSize(size)),
-          }}
-          className={iconClassName}
+          css={[
+            {
+              width: theme.spacing(getIconSpacingFromSize(size)),
+              height: theme.spacing(getIconSpacingFromSize(size)),
+            },
+            iconStyles,
+          ]}
         />
       </button>
       <HelpPopover
@@ -264,6 +258,22 @@ const getIconSpacingFromSize = (size?: Size): number => {
       return 2;
   }
 };
+
+const classNames = {
+  popover: (css) => css`
+    pointer-events: none;
+  `,
+
+  paper: (css, theme) => css`
+    ${theme.typography.body2 as CSSObject}
+
+    margin-top: 4px;
+    width: 304px;
+    padding: 20px;
+    color: ${theme.palette.text.secondary};
+    pointer-events: auto;
+  `,
+} satisfies Record<string, ClassName>;
 
 const styles = {
   title: (theme) => ({

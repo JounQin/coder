@@ -127,12 +127,7 @@ export const ChangeVersionDialog: FC<ChangeVersionDialogProps> = ({
                               {params.InputProps.endAdornment}
                             </>
                           ),
-                          classes: {
-                            // Same `padding-left` as input
-                            root: css`
-                              padding-left: 14px !important;
-                            `,
-                          },
+                          classes: { root: classNames.root },
                         }}
                       />
                     </>
@@ -157,4 +152,11 @@ export const ChangeVersionDialog: FC<ChangeVersionDialogProps> = ({
       }
     />
   );
+};
+
+const classNames = {
+  // Same `padding-left` as input
+  root: css`
+    padding-left: 14px !important;
+  `,
 };

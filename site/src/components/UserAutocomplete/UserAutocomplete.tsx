@@ -125,12 +125,7 @@ export const UserAutocomplete: FC<UserAutocompleteProps> = ({
                 {params.InputProps.endAdornment}
               </>
             ),
-            classes: {
-              root: css`
-                padding-left: 14px !important; // Same padding left as input
-                gap: 4px;
-              `,
-            },
+            classes: { root },
           }}
           InputLabelProps={{
             shrink: true,
@@ -140,3 +135,8 @@ export const UserAutocomplete: FC<UserAutocompleteProps> = ({
     />
   );
 };
+
+const root = css`
+  padding-left: 14px !important; // Same padding left as input
+  gap: 4px;
+`;
