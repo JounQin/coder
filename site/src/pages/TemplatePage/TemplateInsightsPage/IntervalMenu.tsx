@@ -3,7 +3,7 @@ import ExpandMoreOutlined from "@mui/icons-material/ExpandMoreOutlined";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useState, useRef } from "react";
+import { type FC, useState, useRef } from "react";
 
 export const insightsIntervals = {
   day: {
@@ -16,13 +16,12 @@ export const insightsIntervals = {
 
 export type InsightsInterval = keyof typeof insightsIntervals;
 
-export const IntervalMenu = ({
-  value,
-  onChange,
-}: {
+interface IntervalMenuProps {
   value: InsightsInterval;
   onChange: (value: InsightsInterval) => void;
-}) => {
+}
+
+export const IntervalMenu: FC<IntervalMenuProps> = ({ value, onChange }) => {
   const anchorRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 

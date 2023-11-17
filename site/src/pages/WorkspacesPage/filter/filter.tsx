@@ -86,7 +86,7 @@ export const WorkspacesFilter: FC<WorkspaceFilterProps> = ({
       learnMoreLink={docs("/workspaces#workspace-filtering")}
       options={
         <>
-          {menus.user && <UserMenu {...menus.user} />}
+          {menus.user && <UserMenu menu={menus.user} />}
           <TemplateMenu {...menus.template} />
           <StatusMenu {...menus.status} />
         </>

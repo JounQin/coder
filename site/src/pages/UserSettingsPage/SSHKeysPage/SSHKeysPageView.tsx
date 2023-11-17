@@ -24,7 +24,7 @@ export const SSHKeysPageView: FC<PropsWithChildren<SSHKeysPageViewProps>> = ({
 
   if (isLoading) {
     return (
-      <div css={{ padding: 4 }}>
+      <div css={{ padding: 32 }}>
         <CircularProgress size={26} />
       </div>
     );

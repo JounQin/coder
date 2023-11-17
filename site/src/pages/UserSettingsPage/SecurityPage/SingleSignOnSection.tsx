@@ -228,7 +228,11 @@ export const SingleSignOnSection: FC<SingleSignOnSectionProps> = ({
   );
 };
 
-const OIDCIcon = ({ oidcAuth }: { oidcAuth: OIDCAuthMethod }) => {
+interface OIDCIconProps {
+  oidcAuth: OIDCAuthMethod;
+}
+
+const OIDCIcon: FC<OIDCIconProps> = ({ oidcAuth }) => {
   if (!oidcAuth.iconUrl) {
     return <KeyIcon css={{ width: 16, height: 16 }} />;
   }

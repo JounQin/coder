@@ -281,10 +281,15 @@ const LoginType: FC<LoginTypeProps> = ({ authMethods, value }) => {
 };
 
 const styles = {
-  icon: { width: 14, height: 14 },
+  icon: {
+    width: 14,
+    height: 14,
+  },
+
   status: {
     textTransform: "capitalize",
   },
+
   suspended: (theme) => ({
     color: theme.palette.text.secondary,
   }),

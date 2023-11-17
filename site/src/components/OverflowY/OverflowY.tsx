@@ -1,7 +1,7 @@
 /**
  * @file Provides reusable vertical overflow behavior.
  */
-import { type ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
 
 type OverflowYProps = {
   children?: ReactNode;
@@ -10,12 +10,12 @@ type OverflowYProps = {
   maxHeight?: number;
 };
 
-export function OverflowY({
+export const OverflowY: FC<OverflowYProps> = ({
   children,
   height,
   maxHeight,
   ...attrs
-}: OverflowYProps) {
+}) => {
   const computedHeight = height === undefined ? "100%" : `${height}px`;
 
   // Doing Math.max check to catch cases where height is accidentally larger
@@ -39,4 +39,4 @@ export function OverflowY({
       {children}
     </div>
   );
-}
+};

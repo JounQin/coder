@@ -442,17 +442,19 @@ export const FilterMenu = <TOption extends BaseOption>(
   );
 };
 
+interface FilterSearchMenuProps<TOption extends BaseOption> {
+  menu: ReturnType<typeof useFilterMenu<TOption>>;
+  label: ReactNode;
+  id: string;
+  children: (values: { option: TOption; isSelected: boolean }) => ReactNode;
+}
+
 export const FilterSearchMenu = <TOption extends BaseOption>({
   id,
   menu,
   label,
   children,
-}: {
-  menu: ReturnType<typeof useFilterMenu<TOption>>;
-  label: ReactNode;
-  id: string;
-  children: (values: { option: TOption; isSelected: boolean }) => ReactNode;
-}) => {
+}: FilterSearchMenuProps<TOption>) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

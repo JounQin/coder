@@ -1,13 +1,12 @@
 import { useTheme } from "@emotion/react";
 import dayjs from "dayjs";
-import { type HTMLAttributes } from "react";
+import { type FC, type HTMLAttributes } from "react";
 
 interface LastSeenProps extends HTMLAttributes<HTMLSpanElement> {
   value: string;
 }
 
-export const LastSeen = (props: LastSeenProps) => {
-  const { value, ...attrs } = props;
+export const LastSeen: FC<LastSeenProps> = ({ value, ...attrs }) => {
   const theme = useTheme();
   const t = dayjs(value);
   const now = dayjs();
