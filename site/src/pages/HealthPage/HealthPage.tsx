@@ -1,5 +1,5 @@
 import { type Interpolation, type Theme, useTheme } from "@emotion/react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { getHealth } from "api/api";
 import { Loader } from "components/Loader/Loader";
 import { useTab } from "hooks";
@@ -18,6 +18,10 @@ import {
 import { Stats, StatsItem } from "components/Stats/Stats";
 import { createDayString } from "utils/createDayString";
 import { DashboardFullPage } from "components/Dashboard/DashboardLayout";
+import { LoadingButton } from "@mui/lab";
+import ReplayIcon from "@mui/icons-material/Replay";
+import { type FC } from "react";
+import { health, refreshHealth } from "api/queries/debug";
 
 const sections = {
   derp: "DERP",
@@ -28,11 +32,14 @@ const sections = {
 
 export default function HealthPage() {
   const tab = useTab("tab", "derp");
+  const queryClient = useQueryClient();
   const { data: healthStatus } = useQuery({
-    queryKey: ["health"],
-    queryFn: () => getHealth(),
-    refetchInterval: 120_000,
+    ...health(),
+    refetchInterval: 30_000,
   });
+  const { mutate: forceRefresh, isLoading: isRefreshing } = useMutation(
+    refreshHealth(queryClient),
+  );
 
   return (
     <>
@@ -41,7 +48,12 @@ export default function HealthPage() {
       </Helmet>
 
       {healthStatus ? (
-        <HealthPageView healthStatus={healthStatus} tab={tab} />
+        <HealthPageView
+          tab={tab}
+          healthStatus={healthStatus}
+          forceRefresh={forceRefresh}
+          isRefreshing={isRefreshing}
+        />
       ) : (
         <Loader />
       )}
@@ -49,13 +61,19 @@ export default function HealthPage() {
   );
 }
 
-export function HealthPageView({
-  healthStatus,
-  tab,
-}: {
+interface HealthPageView {
   healthStatus: Awaited<ReturnType<typeof getHealth>>;
   tab: ReturnType<typeof useTab>;
-}) {
+  forceRefresh: () => void;
+  isRefreshing: boolean;
+}
+
+export const HealthPageView: FC<HealthPageView> = ({
+  healthStatus,
+  tab,
+  forceRefresh,
+  isRefreshing,
+}) => {
   const theme = useTheme();
 
   return (
@@ -86,7 +104,13 @@ export function HealthPageView({
             </PageHeaderTitle>
             <PageHeaderSubtitle>
               {healthStatus.healthy
-                ? "All systems operational"
+                ? Object.keys(sections).some(
+                    (key) =>
+                      healthStatus[key as keyof typeof sections]?.warnings
+                        .length > 0,
+                  )
+                  ? "All systems operational, but performance might be degraded"
+                  : "All systems operational"
                 : "Some issues have been detected"}
             </PageHeaderSubtitle>
           </div>
@@ -104,6 +128,7 @@ export function HealthPageView({
             value={healthStatus.coder_version}
           />
         </Stats>
+        <RefreshButton loading={isRefreshing} handleAction={forceRefresh} />
       </FullWidthPageHeader>
       <div
         css={{
@@ -138,43 +163,29 @@ export function HealthPageView({
               .map((key) => {
                 const label = sections[key as keyof typeof sections];
                 const isActive = tab.value === key;
-                const isHealthy =
-                  healthStatus[key as keyof typeof sections].healthy;
-
+                const healthSection =
+                  healthStatus[key as keyof typeof sections];
+                const isHealthy = healthSection.healthy;
+                const isWarning = healthSection.warnings.length > 0;
                 return (
                   <button
                     key={key}
                     onClick={() => {
                       tab.set(key);
                     }}
-                    css={{
-                      background: isActive ? colors.gray[13] : "none",
-                      border: "none",
-                      fontSize: 14,
-                      width: "100%",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 8,
-                      textAlign: "left",
-                      height: 36,
-                      padding: "0 24px",
-                      cursor: "pointer",
-                      pointerEvents: isActive ? "none" : "auto",
-                      color: isActive
-                        ? theme.palette.text.primary
-                        : theme.palette.text.secondary,
-                      "&:hover": {
-                        background: theme.palette.action.hover,
-                        color: theme.palette.text.primary,
-                      },
-                    }}
+                    css={[
+                      styles.sectionLink,
+                      isActive && styles.activeSectionLink,
+                    ]}
                   >
                     {isHealthy ? (
                       <CheckCircleOutlined
                         css={{
                           width: 16,
                           height: 16,
-                          color: theme.palette.success.light,
+                          color: isWarning
+                            ? theme.palette.warning.main
+                            : theme.palette.success.light,
                         }}
                       />
                     ) : (
@@ -206,7 +217,7 @@ export function HealthPageView({
       </div>
     </DashboardFullPage>
   );
-}
+};
 
 const styles = {
   stats: (theme) => ({
@@ -234,4 +245,51 @@ const styles = {
       fontWeight: 500,
     },
   },
+
+  sectionLink: (theme) => ({
+    background: "none",
+    border: "none",
+    fontSize: 14,
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    gap: 8,
+    textAlign: "left",
+    height: 36,
+    padding: "0 24px",
+    cursor: "pointer",
+    color: theme.palette.text.secondary,
+    "&:hover": {
+      background: theme.palette.action.hover,
+      color: theme.palette.text.primary,
+    },
+  }),
+
+  activeSectionLink: (theme) => ({
+    background: colors.gray[13],
+    pointerEvents: "none",
+    color: theme.palette.text.primary,
+  }),
 } satisfies Record<string, Interpolation<Theme>>;
+
+interface HealthcheckAction {
+  handleAction: () => void;
+  loading: boolean;
+}
+
+export const RefreshButton: FC<HealthcheckAction> = ({
+  handleAction,
+  loading,
+}) => {
+  return (
+    <LoadingButton
+      loading={loading}
+      loadingPosition="start"
+      data-testid="healthcheck-refresh-button"
+      startIcon={<ReplayIcon />}
+      onClick={handleAction}
+    >
+      Refresh
+    </LoadingButton>
+  );
+};
